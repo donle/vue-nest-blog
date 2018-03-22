@@ -4,10 +4,6 @@ import { join } from 'path';
 
 @Controller('/')
 export class AppController {
-  @HttpCode(204)
-  @Get('/session')
-  session(@Req() req: Request): Object {
-    if (req.user) return { message: 'ok' };
-    else return { message: 'false' };
-  }
+  @Get()
+  render() { };
 }

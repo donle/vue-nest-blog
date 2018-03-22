@@ -1,13 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, LoggerService } from '@nestjs/common';
 import { ApplicationModule } from './app.module';
 
-import * as favicon from 'serve-favicon';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
-// import * as bodyParser from 'body-parser';
 import * as session from 'express-session';
-import * as serveStatic from 'serve-static';
 import * as passport from 'passport';
 import * as compression from 'compression';
 import * as connectMongo from 'connect-mongo';
@@ -15,9 +12,10 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as express from 'express';
 import { connection as MongoConnect } from 'mongoose';
+import * as connectHistoryApiFallback from 'connect-history-api-fallback';
 import * as mPromise from 'bluebird';
 
-import { DefaultConfig } from '../config/config.default';
+import { DefaultConfig } from '../config/server.config';
 
 class Application {
 	private app: INestApplication;
@@ -25,9 +23,11 @@ class Application {
 	constructor(
 		private port = 3000,
 		private log = logger('dev'),
-		// private icon = favicon(path.join(__dirname, 'public/assets/favicon.ico')),
-		// private httpRequestParser = [bodyParser.json(), bodyParser.urlencoded({ extended: false })],
 		private cookieCommunicator = cookieParser(),
+		private h5history = connectHistoryApiFallback({
+			verbose: true,
+			index: '/'
+		}),
 		private compressor = compression({
 			level: 9
 		}),
@@ -37,15 +37,15 @@ class Application {
 	) {
 		this.bootstrap().then(() => {
 			this.app
-				// .use(this.icon)
 				.use(this.log)
-				// .use(this.httpRequestParser)
 				.use(this.cookieCommunicator)
 				.use(this.compressor)
+				.use(this.h5history)
 				.use(this.staticFiles);
 
 			this.setViewEngine('ejs');
-			// this.setConnectSession();
+			this.setConnectSession();
+			this.passport();
 		}).then(() => {
 			this.start(this.port);
 		});
@@ -76,7 +76,9 @@ class Application {
 				mongooseConnection: MongoConnect
 			})
 		}));
+	}
 
+	private passport() {
 		this.app.use(passport.initialize());
 		this.app.use(passport.session());
 	}
