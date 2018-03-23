@@ -7,6 +7,10 @@ interface IUser {
   loginTimes?: number;
   creationDate?: Date;
   modifiedDate?: Date;
+  hobbies?: Array<string>;
+  birth?: Date;
+  location?: string;
+  posterUrl?: string; 
   validatePassword?: Function,
   changePassword?: Function,
   manualCreatePassword?: Function

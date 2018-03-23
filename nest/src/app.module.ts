@@ -1,12 +1,21 @@
 import { Module, NestModule, MiddlewaresConsumer, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { UserModule } from './user/user.module';
-import { CacheMiddleware } from './middlewares/cache.middleware';
-import { AuthModule } from './shared/authentication/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
 import * as passport from 'passport';
 
+import { AppController } from './app.controller';
+import { UserModule } from './user/user.module';
+import { ArticleModule } from './article/article.module';
+import { CacheMiddleware } from './middlewares/cache.middleware';
+import { AuthModule } from './shared/authentication/auth.module';
+import { UserSchema } from './user/user.sechma';
+
 @Module({
-  imports: [UserModule, AuthModule],
+  imports: [
+    UserModule,
+    ArticleModule, 
+    AuthModule,
+    MongooseModule.forRoot('mongodb://localhost:27018/dev')
+  ],
   controllers: [AppController]
 })
 export class ApplicationModule implements NestModule {

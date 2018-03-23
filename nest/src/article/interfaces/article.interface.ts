@@ -1,7 +1,17 @@
 import { Document } from 'mongoose';
 
-//@@TODO: article record structure
 interface IArticle {
-    
+    articleId: number;
+    category: string;
+    subCategory: string;
+    title: string;
+    body: string;
+    media: Array<string>;
+    creationDate: Date;
+    comments: Array<{
+        messenger: string;
+        body: string;
+        date: Date;
+    }>;
 }
-export interface UserInterface extends Document, IArticle { }
+export interface ArticleInterface extends Document, IArticle { }
