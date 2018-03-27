@@ -11,8 +11,8 @@ interface IUser {
   birth?: Date;
   location?: string;
   posterUrl?: string; 
-  validatePassword?: Function,
-  changePassword?: Function,
-  manualCreatePassword?: Function
+  validatePassword?: (password: string) => boolean,
+  changePassword?: (password: string) => void,
+  manualCreatePassword?: (password: string) => string
 }
 export interface UserInterface extends Document, IUser { }
