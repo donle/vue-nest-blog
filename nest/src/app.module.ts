@@ -9,12 +9,16 @@ import { CacheMiddleware } from './middlewares/cache.middleware';
 import { AuthModule } from './shared/authentication/auth.module';
 import { UserSchema } from './user/user.sechma';
 
+import { CfgLoader, ServerEnvironment } from '../config/loader'
+import { MediaModule } from './media/media.module';
+
 @Module({
   imports: [
     UserModule,
     ArticleModule, 
     AuthModule,
-    MongooseModule.forRoot('mongodb://localhost:27018/dev')
+    MediaModule,
+    MongooseModule.forRoot(new CfgLoader(ServerEnvironment.DEV).load().DB.Url)
   ],
   controllers: [AppController]
 })

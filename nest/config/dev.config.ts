@@ -1,5 +1,7 @@
-export const DefaultConfig = {
-    DB: 'mongodb://localhost:27018/dev',
+export const DevConfig = {
+    DB: {
+        Url: 'mongodb://localhost:27018/dev',
+    },
     Session: {
         MaxAge: 7200000,
         Secret: 'secret'

@@ -14,13 +14,16 @@ import * as express from 'express';
 import { connection as MongoConnect } from 'mongoose';
 import * as connectHistoryApiFallback from 'connect-history-api-fallback';
 import * as mPromise from 'bluebird';
-
-import { DefaultConfig } from '../config/server.config';
+import { CfgLoader, ServerEnvironment, ConfigInterface } from '../config/loader';
 
 class Application {
 	private app: INestApplication;
+	private staticFiles: express.RequestHandler;
+	private config: ConfigInterface;
 
 	constructor(
+		private env = ServerEnvironment.DEV,
+		private ssl = false,
 		private port = 3000,
 		private log = logger('dev'),
 		private cookieCommunicator = cookieParser(),
@@ -30,11 +33,12 @@ class Application {
 		}),
 		private compressor = compression({
 			level: 9
-		}),
-		private staticFiles = express.static('dist', {
-			maxAge: DefaultConfig.Cache.MaxAge
 		})
 	) {
+		this.config = new CfgLoader(env, ssl).load();
+		this.staticFiles = express.static('dist', {
+			maxAge: this.config.Cache.MaxAge
+		});
 		this.bootstrap().then(() => {
 			this.app
 				.use(this.log)
@@ -68,10 +72,10 @@ class Application {
 		const MongoStore = connectMongo(session);
 
 		this.app.use(session({
-			secret: DefaultConfig.Session.Secret,
+			secret: this.config.Session.Secret,
 			resave: true,
 			saveUninitialized: false,
-			cookie: { maxAge: DefaultConfig.Session.MaxAge, httpOnly: false },
+			cookie: { maxAge: this.config.Session.MaxAge, httpOnly: false },
 			store: new MongoStore({
 				mongooseConnection: MongoConnect
 			})
@@ -84,7 +88,7 @@ class Application {
 	}
 
 	public async start(port?: number) {
-		await this.app.listen(port || DefaultConfig.Port);
+		await this.app.listen(port || this.config.Port);
 	}
 }
 

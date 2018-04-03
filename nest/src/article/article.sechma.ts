@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose';
 
 export const ArticleSchema = new Schema({
+    articleId: Number,
     category: String,
     subCategory: String,
     title: String,
@@ -8,6 +9,7 @@ export const ArticleSchema = new Schema({
     media: [String],
     creationDate: Date,
     comments: [{
+        _id: false,
         messenger: String,
         body: String,
         date: Date

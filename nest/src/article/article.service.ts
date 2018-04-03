@@ -14,7 +14,7 @@ export class ArticleService {
   public async getRecentPosts() {
     return await this.userModel.find({}, [
       'title',
-      'date',
+      'creationDate',
       'category',
       'subCategory',
       'articleId'
