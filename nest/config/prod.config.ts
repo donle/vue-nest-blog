@@ -1,6 +1,6 @@
 export const ProdConfig = {
     DB: {
-        Url: 'mongodb://localhost:27018/dev',
+        Url: 'mongodb://localhost:27018/prod',
     },
     Session: {
         MaxAge: 7200000,

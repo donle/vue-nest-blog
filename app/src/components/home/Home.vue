@@ -9,6 +9,7 @@
         <v-flex sm5 hidden-xs-only class="pa-2">
           <AboutMe />
           <!-- <Instagram /> -->
+          <RecentPost />
         </v-flex>
       </v-layout>
     </div>
@@ -20,9 +21,10 @@ import AboutMe from "./AboutMe";
 import ArticleList from "./ArticleList";
 import Banner from './Banner';
 import Instagram from '../shares/Instagram';
+import RecentPost from '../shares/RecentPost';
 
 export default {
-  components: { Banner, AboutMe, ArticleList, Instagram },
+  components: { Banner, AboutMe, ArticleList, Instagram, RecentPost },
   name: 'Home'
 };
 </script>
