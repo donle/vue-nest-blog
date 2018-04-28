@@ -12,12 +12,19 @@ export default {
   data() {
     return {
       introduction: "",
-      bannerImage: require("@/assets/media/banners/home-banner.jpg"),
+      bannerImage: require("@/assets/media/banners/home-banner.jpg")
     };
   },
-  methods: {},
+  methods: {
+  },
   created() {
     this.introduction = "想说的话";
+  },
+  mounted() {
+    this.$root.$on('routerChanged', path => {
+      path = require("@/assets/media/banners/blog-banner.jpg");
+      this.bannerImage = path;
+    });
   }
 };
 </script>
@@ -42,7 +49,7 @@ export default {
     p {
       text-align: center;
       font-weight: 600;
-      color: rgb(82, 82, 82)
+      color: rgb(82, 82, 82);
     }
   }
 }

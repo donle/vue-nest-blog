@@ -28,7 +28,7 @@
 import moment from "moment";
 
 export default {
-  name: "ArticleList",
+  name: "ArticleScrollList",
   data() {
     return {
       articles: []

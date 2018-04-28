@@ -1,21 +1,9 @@
 <template>
   <div id="app">
-    <h1 class="display-3">Jen Liu</h1>
-    <v-toolbar class="red accent-2 nav-bar hidden-xs-only">
-      <v-layout class="nav-items" row>
-        <v-flex xs2><v-btn flat to="/">首页</v-btn></v-flex>
-        <v-flex xs2><v-btn flat to="/">文章</v-btn></v-flex>
-        <v-flex xs2><v-btn flat to="/">游记</v-btn></v-flex>
-        <v-flex xs2><v-btn flat to="/">摄影</v-btn></v-flex>
-        <v-flex xs2><v-btn flat to="/">音乐</v-btn></v-flex>
-        <v-flex xs2><v-btn flat to="/">关于我</v-btn></v-flex>
-      </v-layout>
-    </v-toolbar>
-    <v-toolbar class="red accent-2 hidden-sm-and-up mobile-nav-bar">
-      <v-toolbar-side-icon icon></v-toolbar-side-icon>
-    </v-toolbar>
+    <Header v-if="!hideHeader" />
     <v-content>
-      <v-container fluid class="pa-0">
+      <Banner v-if="!hideHeader" />
+      <v-container fluid :class="[isAdmin, 'pa-0', 'main', 'mb-3' ]">
         <router-view></router-view>
       </v-container>
     </v-content>
@@ -23,8 +11,36 @@
 </template>
 
 <script>
+import Banner from '@/components/shares/Banner';
+import Header from '@/components/shares/Header';
+
 export default {
-  name: "app"
+  name: "app",
+  components: { Banner, Header },
+  data () {
+    return {
+      hideHeader: false
+    }
+  },
+  computed: {
+    isAdmin: function () {
+      return this.hideHeader ? 'admin' : '';
+    }
+  },
+  watch: {
+    '$route': function (to) {
+      if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
+      else this.hideHeader = false;
+      this.$root.$emit('routerChanged', to.path);
+    }
+  },
+  created () {
+    this.$root.$emit('routerChanged', this.$route.path);
+  },
+  mounted () {
+    if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
+    else this.hideHeader = false;
+  }
 };
 </script>
 
@@ -37,29 +53,13 @@ export default {
   color: #2c3e50;
 }
 
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /deep/ div.toolbar__content {
-    width: 100%;
+.main {
+  max-width: 960px;
+  width: 100%;
+  margin: auto;
+  &.admin {
+    max-width: initial;
   }
-  .nav-items {
-    width: 100%;
-    max-width: 860px;
-    height: 100%;
-    margin: auto;
-  }
-  button,
-  a {
-    color: white;
-    margin: 0;
-    height: 100%;
-    width: 100%;
-  }
-}
-.mobile-nav-bar {
-  color: white;
 }
 </style>
 
@@ -85,5 +85,6 @@ html {
 }
 body {
   font-family: "Microsoft YaHei" !important;
+  background: #eee;
 }
 </style>

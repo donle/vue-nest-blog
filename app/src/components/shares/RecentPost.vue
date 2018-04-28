@@ -6,7 +6,7 @@
         <!-- <router-link class="red--text text--accent-2" :to="{ path: '/article', query: {id: article.articleId }}">{{ article.title }}</router-link> -->
         <a class="red--text text--accent-2" :href="'/article/id?=' + article.articleId">{{ article.title }}</a>
         
-        <v-layout row wrap>
+        <v-layout row wrap class="pt-1">
           <v-spacer></v-spacer>
           <span class="subtitle">{{ article.category + ' - ' + article.subCategory + ' - ' + formatDate(article.creationDate)}} </span>
         </v-layout>
