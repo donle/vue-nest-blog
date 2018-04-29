@@ -1,17 +1,9 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer
-      fixed
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      app
-      v-model="drawer"
-    >
-      <v-list dense>
-      </v-list>
-    </v-navigation-drawer>
+  <v-app id="admin">
+    <Drawer />
     <Header />
-    <v-content>
-      <v-container fluid fill-height>
+    <v-content class="pa-3 dashboard-main">
+      <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
@@ -20,21 +12,28 @@
 </template>
 
 <script>
-import { Header } from './Header';
-import { Footer } from './Footer';
+import Header from "./Header";
+import Footer from "./Footer";
+import Drawer from "./Drawer";
+
 export default {
-  name: 'Admin',
-  components: { Header, Footer },
+  name: "Admin",
+  components: { Header, Footer, Drawer },
   data () {
     return {
       drawer: true
     }
   },
-  created () {
-  }
+  methods: {
+  },
+  created() {}
 };
 </script>
 
 <style lang="scss" scoped>
-
+.dashboard-main {
+  max-width: 960px;
+  margin: auto;
+  width: 100%;
+}
 </style>

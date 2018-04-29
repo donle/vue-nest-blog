@@ -18,11 +18,11 @@
 <script>
 import AboutMe from "./AboutMe";
 import ArticleScrollList from "./ArticleScrollList";
-import Instagram from '../shares/Instagram';
+// import Instagram from '../shares/Instagram';
 import RecentPost from '../shares/RecentPost';
 
 export default {
-  components: { AboutMe, ArticleScrollList, Instagram, RecentPost },
+  components: { AboutMe, ArticleScrollList, RecentPost },
   name: 'Home'
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-parallax class="banner" :src="bannerImage" height="600">
+  <v-parallax class="banner" :src="bannerImage" height="600" v-if="showBanner">
     <div class="intro pa-5">
       <p>{{ introduction }}</p>
     </div>
@@ -9,6 +9,14 @@
 <script>
 export default {
   name: "Banner",
+  props: {
+    display: Boolean
+  },
+  computed: {
+    showBanner: function () {
+      return this.display;
+    }
+  },
   data() {
     return {
       introduction: "",

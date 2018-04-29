@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'Instagram',
+  name: 'Blog',
   created () {
   }
 };

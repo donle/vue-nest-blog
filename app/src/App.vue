@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Header v-if="!hideHeader" />
+    <Header v-if="!this.hideHeader" />
     <v-content>
-      <Banner v-if="!hideHeader" />
+      <Banner v-if="!this.hideHeader" :display="!hideHeader" />
       <v-container fluid :class="[isAdmin, 'pa-0', 'main', 'mb-3' ]">
         <router-view></router-view>
       </v-container>
@@ -28,13 +28,15 @@ export default {
     }
   },
   watch: {
-    '$route': function (to) {
+    '$route' (to) {
       if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
       else this.hideHeader = false;
       this.$root.$emit('routerChanged', to.path);
     }
   },
   created () {
+    if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
+    else this.hideHeader = false;
     this.$root.$emit('routerChanged', this.$route.path);
   },
   mounted () {

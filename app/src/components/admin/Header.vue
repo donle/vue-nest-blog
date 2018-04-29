@@ -6,23 +6,20 @@
     :clipped-left="$vuetify.breakpoint.lgAndUp"
     fixed
   >
-    <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <span class="hidden-sm-and-down">Google Contacts</span>
+    <v-toolbar-title class="ml-0 pl-3 boolbar">
+      <v-toolbar-side-icon @click.stop="openCloseDrawer()"></v-toolbar-side-icon>
+      <span class="hidden-sm-and-down">Jen's Blog</span>
     </v-toolbar-title>
-    <v-text-field
-      flat
-      solo-inverted
-      prepend-icon="search"
-      label="Search"
-      class="hidden-sm-and-down"
-    ></v-text-field>
     <v-spacer></v-spacer>
+
     <v-btn icon>
-      <v-icon>apps</v-icon>
+      <v-badge right overlap color="red">
+        <span slot="badge">6</span>
+        <v-icon>notifications</v-icon>
+      </v-badge>
     </v-btn>
-    <v-btn icon>
-      <v-icon>notifications</v-icon>
+    <v-btn icon class="mr-3">
+      <v-icon>power_settings_new</v-icon>
     </v-btn>
   </v-toolbar>
 </template>
@@ -30,11 +27,21 @@
 <script>
 export default {
   name: 'Header',
+  data () {
+    return {
+      drawer: true
+    }
+  },
+  methods: {
+    openCloseDrawer: function () {
+      this.drawer = !this.drawer;
+      this.$root.$emit('drawer', this.drawer);
+    }
+  },
   created () {
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
 </style>

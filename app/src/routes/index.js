@@ -7,6 +7,13 @@ import Travel from '@/components/travel/Travel'
 import Admin from '@/components/admin/Admin'
 import Login from '@/components/admin/login/Login'
 import Dashboard from '@/components/admin/dashboard/Dashboard'
+import Account from '@/components/admin/dashboard/Account'
+import BannerSetting from '@/components/admin/dashboard/BannerSetting'
+import BlogManager from '@/components/admin/dashboard/BlogManager'
+import MusicManager from '@/components/admin/dashboard/MusicManager'
+import PhotoManager from '@/components/admin/dashboard/PhotoManager'
+import TravelManager from '@/components/admin/dashboard/TravelManager'
+import VlogManager from '@/components/admin/dashboard/VlogManager'
 
 Vue.use(Router)
 
@@ -57,10 +64,62 @@ let router = new Router({
       },
       {
         path: 'dashboard',
+        redirect: '/admin/dashboard/account',
         component: Dashboard,
         meta: {
           title: 'Admin Dashboard'
-        }
+        },
+        children: [
+          {
+            path: 'account',
+            component: Account,
+            meta: {
+              title: 'Admin Dashboard - Account'
+            }
+          },
+          {
+            path: 'banner-setting',
+            component: BannerSetting,
+            meta: {
+              title: 'Admin Dashboard - Setting'
+            }
+          },
+          {
+            path: 'blog-list',
+            component: BlogManager,
+            meta: {
+              title: 'Admin Dashboard - Blog Management'
+            }
+          },
+          {
+            path: 'travel-list',
+            component: TravelManager,
+            meta: {
+              title: 'Admin Dashboard - Travel Management'
+            }
+          },
+          {
+            path: 'music-list',
+            component: MusicManager,
+            meta: {
+              title: 'Admin Dashboard - Music Management'
+            }
+          },
+          {
+            path: 'photo-list',
+            component: PhotoManager,
+            meta: {
+              title: 'Admin Dashboard - Photo Management'
+            }
+          },
+          {
+            path: 'vlog-list',
+            component: VlogManager,
+            meta: {
+              title: 'Admin Dashboard - Vlog Management'
+            },
+          }
+        ]
       }
     ]
   }
@@ -68,6 +127,7 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(to.path)
   document.title = 'Jen\'s Blog - ' + to.meta.title
   next()
 })
