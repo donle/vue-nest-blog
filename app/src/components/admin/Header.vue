@@ -1,6 +1,6 @@
 <template>
   <v-toolbar id="header"
-    color="blue darken-3"
+    color="red accent-2"
     dark
     app
     :clipped-left="$vuetify.breakpoint.lgAndUp"
@@ -12,33 +12,41 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
 
-    <v-btn icon>
-      <v-badge right overlap color="red">
-        <span slot="badge">6</span>
-        <v-icon>notifications</v-icon>
-      </v-badge>
-    </v-btn>
-    <v-btn icon class="mr-3">
-      <v-icon>power_settings_new</v-icon>
-    </v-btn>
+    <v-tooltip bottom v-if="!isLoginPage">
+      <v-btn icon slot="activator">
+        <v-badge right overlap color="amber darken-1">
+          <span slot="badge">6</span>
+          <v-icon>notifications</v-icon>
+        </v-badge>
+      </v-btn>
+      <span>Notifications</span>
+    </v-tooltip>
+    <v-tooltip bottom v-if="!isLoginPage">
+      <v-btn icon slot="activator" class="mr-3">
+        <v-icon>power_settings_new</v-icon>
+      </v-btn>
+      <span>Log out</span>
+    </v-tooltip>
   </v-toolbar>
 </template>
 
 <script>
 export default {
   name: 'Header',
-  data () {
-    return {
-      drawer: true
-    }
-  },
+  data: () => ({
+    drawer: true,
+    isLoginPage: false
+  }),
   methods: {
     openCloseDrawer: function () {
+      if (this.isLoginPage) return;
       this.drawer = !this.drawer;
       this.$root.$emit('drawer', this.drawer);
     }
   },
   created () {
+    if (this.$route.path.indexOf('login') >= 0) this.isLoginPage = true;
+    this.drawer = !this.isLoginPage;
   }
 };
 </script>

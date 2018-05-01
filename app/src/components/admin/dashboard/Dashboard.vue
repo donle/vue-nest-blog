@@ -6,14 +6,7 @@
 
 <script>
 export default {
-  name: 'Dashboard',
-  created () {
-  },
-  mounted () {
-    this.$root.$on('routerChanged', path => {
-      console.log(path);
-    });
-  }
+  name: 'Dashboard'
 };
 </script>
 

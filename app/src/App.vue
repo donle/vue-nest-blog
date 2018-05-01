@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <Header v-if="!this.hideHeader" />
-    <v-content>
+    <v-content :class="{ 'pb-3': !this.hideHeader }">
       <Banner v-if="!this.hideHeader" :display="!hideHeader" />
-      <v-container fluid :class="[isAdmin, 'pa-0', 'main', 'mb-3' ]">
+      <v-container fluid :class="[isAdmin, 'pa-0', 'main' ]">
         <router-view></router-view>
       </v-container>
     </v-content>
-  </div>
+  </v-app>
 </template>
 
 <script>

@@ -2,7 +2,7 @@
   <v-app id="admin">
     <Drawer />
     <Header />
-    <v-content class="pa-3 dashboard-main">
+    <v-content :class="['pa-3', 'dashboard-main', isLogin]">
       <v-container fluid>
         <router-view></router-view>
       </v-container>
@@ -24,9 +24,14 @@ export default {
       drawer: true
     }
   },
-  methods: {
+  computed: {
+    isLogin: function () {
+      return this.$route.path.indexOf('login') >= 0 ? 'login-page' : '';
+    }
   },
-  created() {}
+  mounted () {
+    if (this.$route.path.indexOf('login') >= 0) this.$root.$emit('drawer', false);
+  }
 };
 </script>
 
@@ -35,5 +40,11 @@ export default {
   max-width: 960px;
   margin: auto;
   width: 100%;
+  &.login-page /deep/ .content--wrap {
+    display: flex;
+  }
+}
+#admin /deep/ .application--wrap {
+  min-height: calc(100vh - 64px);
 }
 </style>

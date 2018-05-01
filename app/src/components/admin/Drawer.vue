@@ -3,7 +3,7 @@
     fixed
     :clipped="$vuetify.breakpoint.lgAndUp"
     app
-    v-model="drawer"
+    :value="drawer"
     class="drawer"
   >
     <v-list dense>
@@ -74,7 +74,7 @@ export default {
     return {
       drawer: true,
       items: [
-        { icon: "account_box", text: "个人信息", route: 'account' },
+        { icon: "settings", text: "通用设置", route: 'general' },
         {
           icon: "keyboard_arrow_up",
           "icon-alt": "keyboard_arrow_down",
@@ -90,12 +90,17 @@ export default {
       ]
     };
   },
+  beforeCreate () {
+    if (this.$route.path.indexOf('login') >= 0) this.drawer = false;
+    else this.drawer = true;
+  },
   methods: {
     gotoPage: function (route) {
       this.$router.push({ path: route });
     }
   },
-  created() {},
+  created() {
+  },
   mounted () {
     this.$root.$on('drawer', openOrClose => this.drawer = openOrClose);
   }

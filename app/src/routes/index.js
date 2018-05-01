@@ -7,7 +7,8 @@ import Travel from '@/components/travel/Travel'
 import Admin from '@/components/admin/Admin'
 import Login from '@/components/admin/login/Login'
 import Dashboard from '@/components/admin/dashboard/Dashboard'
-import Account from '@/components/admin/dashboard/Account'
+import General from '@/components/admin/dashboard/General'
+import NewArticle from '@/components/admin/dashboard/NewArticle'
 import BannerSetting from '@/components/admin/dashboard/BannerSetting'
 import BlogManager from '@/components/admin/dashboard/BlogManager'
 import MusicManager from '@/components/admin/dashboard/MusicManager'
@@ -64,17 +65,17 @@ let router = new Router({
       },
       {
         path: 'dashboard',
-        redirect: '/admin/dashboard/account',
+        redirect: '/admin/dashboard/general',
         component: Dashboard,
         meta: {
           title: 'Admin Dashboard'
         },
         children: [
           {
-            path: 'account',
-            component: Account,
+            path: 'general',
+            component: General,
             meta: {
-              title: 'Admin Dashboard - Account'
+              title: 'Admin Dashboard - General Settings'
             }
           },
           {
@@ -89,6 +90,13 @@ let router = new Router({
             component: BlogManager,
             meta: {
               title: 'Admin Dashboard - Blog Management'
+            }
+          },
+          {
+            path: 'new-thread',
+            component: NewArticle,
+            meta: {
+              title: 'New Blog'
             }
           },
           {
@@ -127,7 +135,6 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to.path)
   document.title = 'Jen\'s Blog - ' + to.meta.title
   next()
 })
