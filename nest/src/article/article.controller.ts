@@ -8,6 +8,16 @@ export class ArticleController {
         private readonly articleService: ArticleService
     ) { }
 
+    @Get('category/list')
+    public async getArticleCategoryList (@Query() query) {
+        return await this.articleService.getListOfArticleCategories(query.type);
+    }
+
+    @Post('category/new')
+    public async createNewArticleCategory(@Body() body) {
+        return await this.articleService.createNewCategory(body);
+    }
+
     @Get('recent')
     public async getRecentPosts() {
         return await this.articleService.getRecentPosts();

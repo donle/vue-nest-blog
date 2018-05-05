@@ -3,18 +3,18 @@ import { Validator } from 'class-validator';
 import { FileInterceptor } from '@nestjs/common';
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => callback(null, '/upload/resources'),
-    filename: (req, file, callback) => callback(null, file.filename)
+    destination: (req, file, callback) => callback(null, './dist/upload'),
+    filename: (req, file, callback) => callback(null, file.originalname)
 });
 
 const fileFilter = (req, file, callback) => {
-    const filename = file.filename.split('.');
+    const filename = file.originalname.split('.');
     const ext = filename[filename.length - 1];
-    if (!['jpg', 'jpeg', 'bmp', 'png'].includes(ext))
-    callback(null, true);
+    if (['jpg', 'jpeg', 'bmp', 'png'].includes(ext)) callback(null, true);
+    else callback('Unexpected type of file', false); 
 }
 
-const multerOptions = {
+export const multerOptions = {
     storage,
     fileFilter,
     limits: {

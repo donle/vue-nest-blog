@@ -56,7 +56,7 @@ export default {
 }
 
 .main {
-  max-width: 960px;
+  max-width: 960px !important;
   width: 100%;
   margin: auto;
   &.admin {
