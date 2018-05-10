@@ -5,7 +5,7 @@ import * as passport from 'passport';
 import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
-import { CacheMiddleware } from './middlewares/cache.middleware';
+import { CacheMiddleware } from './shared/middlewares/cache.middleware';
 import { AuthModule } from './shared/authentication/auth.module';
 import { UserSchema } from './user/user.sechma';
 

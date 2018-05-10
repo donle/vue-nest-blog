@@ -1,5 +1,6 @@
 <template>
 <div class="text-xs-center">
+  <ArticleList :articles="articles" :editMode="true" />
   <v-btn fab bottom right dark fixed color="red accent-2" :to="{ path: 'new-thread', query: { type: 'blog' }}">
     <v-icon dark class="add-btn-icon">add</v-icon>
   </v-btn>
@@ -7,10 +8,33 @@
 </template>
 
 <script>
+import ArticleList from '../../shares/ArticleList.vue';
+import { DashboardService } from "../../../util/services/admin/dashboard.service";
+
 export default {
   name: "Blog",
-  created() {},
+  components: { ArticleList },
+  data: () => ({
+    articles: [],
+    httpService: new DashboardService()
+  }),
+  created() {
+    this.getArticleList();
+  },
   methods: {
+    getArticleList () {
+      this.httpService.getArticleList('blog').then(res => {
+
+        for (let article of res) {
+          let index = this.articles.findIndex(sub_articles => sub_articles.find(_article => _article.subCategory === article.subCategory));
+          if (index >= 0) {
+            this.articles[index].push(article);
+          } else {
+            this.articles.push([ article ]);
+          }
+        }
+      });
+    }
   }
 };
 </script>

@@ -1,4 +1,4 @@
-import { Middleware, NestMiddleware, ExpressMiddleware } from '@nestjs/common';
+import { Middleware, NestMiddleware, ExpressMiddleware, HttpException } from '@nestjs/common';
 
 @Middleware()
 export class CacheMiddleware implements NestMiddleware {
@@ -20,8 +20,8 @@ export class CacheMiddleware implements NestMiddleware {
           else time = 0;
         }
         catch (e) {
+          throw new HttpException('Invaliid cache control: time syntax error', 501);
         }
-
         res.set('Cache-Control', `public, max-age:${time}`);
       }
       next();

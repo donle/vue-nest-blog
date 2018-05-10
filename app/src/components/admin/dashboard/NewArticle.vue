@@ -107,9 +107,9 @@
 
 <script>
 import { VueEditor, Quill } from "vue2-editor";
-import path from "path";
 
 import { requestDOM } from '@/util/default.config';
+import { DashboardService } from "../../../util/services/admin/dashboard.service";
 // import { ImageDrop } from 'quill-image-drop-module';
 // import ImageResize from 'quill-image-resize-module';
 
@@ -120,11 +120,12 @@ export default {
   name: "NewArticle",
   components: { VueEditor },
   data: () => ({
+    httpService: new DashboardService(),
     preview_dialog: false,
     save_dialog: false,
     create_new_dialog: false,
     new_category: {
-      name: '',
+      name: "",
       private: false
     },
     article_category: [],
@@ -155,19 +156,13 @@ export default {
       }
     }
   }),
-  created() {
-  },
+  created() {},
   methods: {
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
       var formData = new FormData();
       formData.append("image", file);
-      this.$http({
-        url: requestDOM + "api/media/image/article/upload",
-        method: "POST",
-        data: formData
-      })
-        .then(result => {
-          let url = result.data.url;
+      this.httpService.uploadArticleImage(formData).then(result => {
+          let url = result.url;
           Editor.insertEmbed(cursorLocation, "image", requestDOM + url);
           resetUploader();
           this.content_images.push(url);
@@ -180,33 +175,37 @@ export default {
       this.save_dialog = true;
       if (!!this.article_category.length) return;
 
-      this.$http({
-        url: requestDOM + "api/articles/category/list",
-        method: "GET",
-        query: {
-          type: this.$route.query
-        }
+      this.httpService.getArticleCategory({
+        type: this.$route.query.type
       }).then(result => {
-        this.article_category = result.data;
-      }).catch(err => {
+        this.article_category = result;
+      })
+      .catch(err => {
         //@@todo
       });
     },
-    createNewCategory () {
-      this.$http({
-        url: requestDOM + 'api/articles/category/new',
-        method: 'POST',
-        data: {
-          type: this.$route.query,
+    createNewCategory() {
+      this.httpService.createNewCategory({
+          type: this.$route.query.type,
           new_category: this.new_category.name,
           private: this.new_category.private
-        }
-      }).catch(e => {}).finally(() => {
-        this.save_dialog = false;
-      });
+        })
+        .then(() => {
+          this.save_dialog = false;
+        })
+        .catch(e => {
+          
+        });
     },
     saveArticle(category) {
-
+      this.httpService.saveNewArticle(this.title, this.content, this.content_images, this.$route.query.type, category)
+      .then(res => {
+        console.log(res);
+        this.save_dialog = false;
+        this.title = '';
+        this.content_images = [];
+        this.content = '';
+      });
     }
   }
 };

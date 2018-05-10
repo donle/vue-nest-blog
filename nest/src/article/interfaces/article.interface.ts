@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-interface IArticle {
+export interface IArticle {
     articleId: number;
     category: string;
     subCategory: string;
@@ -16,7 +16,7 @@ interface IArticle {
     }>;
 }
 
-interface IArticleCategoryList {
+export interface IArticleCategory {
     type: string;
     category: Array<{
         name: string,
@@ -24,4 +24,4 @@ interface IArticleCategoryList {
     }>;
 }
 export interface ArticleInterface extends Document, IArticle { }
-export interface IArticleCategoryListInterface extends Document, IArticleCategoryList { }
+export interface IArticleCategoryInterface extends Document, IArticleCategory { }

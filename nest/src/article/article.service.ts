@@ -2,7 +2,7 @@ import { Component, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ArticleSchema, ArticleCategorySchema } from './article.sechma';
-import { ArticleInterface, IArticleCategoryListInterface } from './interfaces/article.interface';
+import { ArticleInterface, IArticleCategoryInterface } from './interfaces/article.interface';
 import { Request } from 'express';
 
 enum ARTICLE_TYPE {
@@ -14,7 +14,7 @@ enum ARTICLE_TYPE {
 export class ArticleService {
   constructor(
     @InjectModel(ArticleSchema) private readonly articleModel: Model<ArticleInterface>,
-    @InjectModel(ArticleCategorySchema) private readonly articleCategoryListModel: Model<IArticleCategoryListInterface>
+    @InjectModel(ArticleCategorySchema) private readonly articleCategoryListModel: Model<IArticleCategoryInterface>
   ) { }
 
   public async getRecentPosts() {
@@ -58,11 +58,27 @@ export class ArticleService {
   }
 
   public async getListOfArticleCategories (type: ARTICLE_TYPE) {
-    return await this.articleCategoryListModel.findOne({ type }, { category: true }).exec();
+    return await this.articleCategoryListModel.findOne({ type }).exec().then(res => res.category);
+  }
+
+  public async getListOfArticlesByType(type: ARTICLE_TYPE | string, category?: string) {
+    if (category) {
+      return await this.articleModel.find({ category: type, subCategory: category }).exec();
+    } else {
+      return await this.articleModel.find({ category: type }).exec();
+    }
+  }
+
+  public async getNumOfArticles (type: ARTICLE_TYPE, category: string) {
+    return await this.articleModel.count({ category: type, subCategory: category }).exec();
   }
 
   public async countArticlesUnderCondition (condition: any) {
     return await this.articleModel.count(condition).exec();
+  }
+
+  public async getArticleById(articleId: string | number) {
+    return await this.articleModel.findOne({ articleId }).exec();
   }
 
   public async createNewCategory (data: {
@@ -71,7 +87,18 @@ export class ArticleService {
     private: boolean
   }) {
     let document = await this.articleCategoryListModel.findOne({ type: data.type }).exec();
-    document.category.push({ name: data.new_category, private: data.private });
-    return await document.save();
+    if (document) {
+      document.category.push({ name: data.new_category, private: data.private });
+      return await document.save();
+    } else {
+      let newCategory = new this.articleCategoryListModel({
+        type: data.type,
+        category: [{
+          name: data.new_category,
+          private: data.private
+        }]
+      });
+      return await newCategory.save();
+    }
   }
 }

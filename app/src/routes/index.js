@@ -15,6 +15,7 @@ import MusicManager from '@/components/admin/dashboard/MusicManager'
 import PhotoManager from '@/components/admin/dashboard/PhotoManager'
 import TravelManager from '@/components/admin/dashboard/TravelManager'
 import VlogManager from '@/components/admin/dashboard/VlogManager'
+import EditArticle from '@/components/admin/dashboard/EditArticle'
 
 Vue.use(Router)
 
@@ -90,6 +91,13 @@ let router = new Router({
             component: BlogManager,
             meta: {
               title: 'Admin Dashboard - Blog Management'
+            }
+          },
+          {
+            path: 'edit',
+            component: EditArticle,
+            meta: {
+              title: 'Admin Dashboard - Blog Edit Page'
             }
           },
           {
