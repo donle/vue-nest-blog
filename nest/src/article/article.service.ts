@@ -49,6 +49,7 @@ export class ArticleService {
   }
 
   public async updateOnePost(updates: ArticleInterface) {
+    updates.modifiedDate = new Date();
     return this.articleModel.update({ articleId: updates.articleId }, { $set: updates }).exec();
   }
 

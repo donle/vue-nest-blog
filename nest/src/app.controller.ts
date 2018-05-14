@@ -2,7 +2,7 @@ import { Get, Post, Body, Param, Query, Headers, Controller, Res, HttpCode, Req 
 import { Request, Response } from 'express';
 import { join } from 'path';
 
-@Controller('/')
+@Controller()
 export class AppController {
   @Get()
   render() { };

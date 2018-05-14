@@ -9,6 +9,7 @@ export const ArticleSchema = new Schema({
     body: String,
     media: [String],
     creationDate: Date,
+    modifiedDate: Date,
     comments: [{
         _id: false,
         messenger: String,

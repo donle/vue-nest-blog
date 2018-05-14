@@ -1,7 +1,7 @@
 <template>
 <div class="text-xs-center">
   <ArticleList :articles="articles" :editMode="true" />
-  <v-btn fab bottom right dark fixed color="red accent-2" :to="{ path: 'new-thread', query: { type: 'blog' }}">
+  <v-btn fab bottom right dark fixed color="red accent-2" :to="{ path: 'subject', query: { type: 'blog', mode: 'create' }}">
     <v-icon dark class="add-btn-icon">add</v-icon>
   </v-btn>
 </div>
@@ -9,14 +9,14 @@
 
 <script>
 import ArticleList from '../../shares/ArticleList.vue';
-import { DashboardService } from "../../../util/services/admin/dashboard.service";
+import { ArticlesService } from "../../../util/services/admin/articles.service";
 
 export default {
   name: "Blog",
   components: { ArticleList },
   data: () => ({
     articles: [],
-    httpService: new DashboardService()
+    httpService: new ArticlesService()
   }),
   created() {
     this.getArticleList();

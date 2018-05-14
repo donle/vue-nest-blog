@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap id='new-thread'>
-    <h3 class='title pb-4'>新的文章</h3>
+    <h3 class='title pb-4' v-html="Title"></h3>
     <v-card>
       <v-card-title>
         <v-layout row wrap>
@@ -109,7 +109,7 @@
 import { VueEditor, Quill } from "vue2-editor";
 
 import { requestDOM } from '@/util/default.config';
-import { DashboardService } from "../../../util/services/admin/dashboard.service";
+import { ArticlesService } from "../../../util/services/admin/articles.service";
 // import { ImageDrop } from 'quill-image-drop-module';
 // import ImageResize from 'quill-image-resize-module';
 
@@ -119,8 +119,13 @@ import { DashboardService } from "../../../util/services/admin/dashboard.service
 export default {
   name: "NewArticle",
   components: { VueEditor },
+  computed: {
+    Title () {
+      return this.$route.query.mode === 'edit' ? '编辑' : '新的文章';
+    }
+  },
   data: () => ({
-    httpService: new DashboardService(),
+    httpService: new ArticlesService(),
     preview_dialog: false,
     save_dialog: false,
     create_new_dialog: false,
@@ -156,7 +161,18 @@ export default {
       }
     }
   }),
-  created() {},
+  created() {
+    if (this.$route.query.mode === 'edit' ) {
+      if (!this.$route.query.articleId) this.$router.push({ path: '/'});
+      else {
+        this.httpService.getArticleById(this.$route.query.articleId).then(res => {
+          this.content_images = res.media;
+          this.title = res.title;
+          this.content = res.body;
+        });
+      }
+    }
+  },
   methods: {
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
       var formData = new FormData();
@@ -173,7 +189,6 @@ export default {
     },
     openSaveMenu() {
       this.save_dialog = true;
-      if (!!this.article_category.length) return;
 
       this.httpService.getArticleCategory({
         type: this.$route.query.type
@@ -191,21 +206,36 @@ export default {
           private: this.new_category.private
         })
         .then(() => {
-          this.save_dialog = false;
+          this.create_new_dialog = false;
         })
         .catch(e => {
           
         });
     },
     saveArticle(category) {
-      this.httpService.saveNewArticle(this.title, this.content, this.content_images, this.$route.query.type, category)
-      .then(res => {
-        console.log(res);
-        this.save_dialog = false;
-        this.title = '';
-        this.content_images = [];
-        this.content = '';
-      });
+      if (this.$route.query.mode === 'edit') {
+        this.httpService.updateArticleById ({ 
+          articleId: parseInt(this.$route.query.articleId), 
+          body: this.content, 
+          title: this.title, 
+          subCategory: category.name, 
+          media: this.content_images 
+        }).then (res => {
+          this.save_dialog = false;
+          this.title = '';
+          this.content_images = [];
+          this.content = '';
+          this.$router.push({ path: `${this.$route.query.type}-list` });
+        })
+      } else {
+        this.httpService.saveNewArticle(this.title, this.content, this.content_images, this.$route.query.type, category)
+        .then(res => {
+          this.save_dialog = false;
+          this.title = '';
+          this.content_images = [];
+          this.content = '';
+        });
+      }
     }
   }
 };

@@ -36,8 +36,20 @@ export class ArticleController {
     }
 
     @Post('update')
-    public async updatePose(@Body() body) {
-        return await this.articleService.updateOnePost(body);
+    public async updatePose(@Body() body: ArticleInterface) {
+        if (body.media.length > 0) {
+            for (let img of body.media) {
+                if (img.includes('articles/')) continue;
+
+                let filename: any = img.split(/(\\|\/)/);
+                filename = filename[filename.length - 1] ;
+                const newPath = `articles/${body.articleId}/${filename}`;
+                fs.renameSync(`dist/${img}`, `dist/${newPath}`);
+                body.body = body.body.replace(img, newPath);
+                body.media.push(`dist/${newPath}`);
+            }
+        }
+        await this.articleService.updateOnePost(body);
     }
 
     @Post('create')
@@ -58,13 +70,12 @@ export class ArticleController {
         if (body.imgs.length > 0) {
             fs.mkdirSync('dist/articles/' + newPost.articleId);
             for (let img of body.imgs) {
-                img = 'dist/' + img;
                 let filename: any = img.split(/(\\|\/)/);
-                filename = filename[filename.length - 1];
-                const newPath = `dist/articles/${newPost.articleId}/${filename}`;
-                fs.renameSync(img, newPath);
-                body.html.replace(img, newPath);
-                newPost.media.push('dist/' + newPath);
+                filename = filename[filename.length - 1] ;
+                const newPath = `articles/${newPost.articleId}/${filename}`;
+                fs.renameSync(`dist/${img}`, `dist/${newPath}`);
+                body.html = body.html.replace(img, newPath);
+                newPost.media.push(`dist/${newPath}`);
             }
         }
         newPost.body = body.html;
@@ -74,8 +85,9 @@ export class ArticleController {
     }
 
     @Post('remove')
-    public async removeOnePost(@Query() query) {
-        await this.articleService.removeOnePost(parseInt(query.id));
+    public async removeOnePost(@Body() body) {
+        await this.articleService.removeOnePost(parseInt(body.articleId));
+        fs.unlinkSync(`dist/articles/${body.articleId}`);
     }
 
     @Get('shortlist')

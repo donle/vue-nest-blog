@@ -5,12 +5,12 @@
       <v-layout row wrap class="links" v-for="(article, sub_index) in sub_articles" :key="sub_index">
         <v-flex xs12 class="article-link pa-3">
           <v-layout row wrap>
-            <a class="red--text text--accent-2" :href="'/articles/id?=' + article.articleId">{{ article.title }}</a>
+            <router-link class="red--text text--accent-2" :to="{ path: '/article', query: { type: article.category, articleId: article.articleId }}">{{ article.title }}</router-link>
             <v-spacer></v-spacer>
-            <span class="subtitle" v-if="!editMode">{{formatDate(article.creationDate)}} </span>
-            <span v-else>
-              <router-link class="red--text text--accent-2 px-1" :to="{ path: 'edit', query: { articleId: article.articleId }}">编辑</router-link>
-              <a class="red--text text--accent-2 px-1" @click.native="deleteArticle(article.articleId)">删除</a>
+            <span class="subtitle px-1">{{formatDate(article.creationDate)}} </span>
+            <span v-if="editMode">
+              <router-link class="red--text text--accent-2 px-1" :to="{ path: 'subject', query: { mode: 'edit', type: article.category, articleId: article.articleId }}">编辑</router-link>
+              <a class="red--text text--accent-2 px-1" @click="deleteArticle(article.articleId, sub_index)">删除</a>
             </span>
           </v-layout>
         </v-flex>
@@ -21,7 +21,7 @@
 
 <script>
 import moment from "moment";
-import { DashboardService } from '../../util/services/admin/dashboard.service';
+import { ArticlesService } from '../../util/services/admin/articles.service';
 
 export default {
   name: "ArticleList",
@@ -30,16 +30,17 @@ export default {
     editMode: Boolean
   },
   data: () => ({
-    httpService: new DashboardService()
+    httpService: new ArticlesService()
   }),
   created() {},
   methods: {
     formatDate: function(date) {
       return moment(date).format("MMM DD, YYYY");
     },
-    deleteArticle (articleId) {
+    deleteArticle (articleId, index) {
       this.httpService.deleteArticleById(articleId).then(res => {
         //@@todo
+        this.articles.splice(index, 1);
       });
     }
   }
@@ -79,5 +80,6 @@ export default {
   font-size: 12px;
   font-weight: 500;
   color: #b6b6b6;
+  align-items: center;
 }
 </style>

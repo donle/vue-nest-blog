@@ -8,14 +8,14 @@ import Admin from '@/components/admin/Admin'
 import Login from '@/components/admin/login/Login'
 import Dashboard from '@/components/admin/dashboard/Dashboard'
 import General from '@/components/admin/dashboard/General'
-import NewArticle from '@/components/admin/dashboard/NewArticle'
+import Editor from '@/components/admin/dashboard/Editor'
 import BannerSetting from '@/components/admin/dashboard/BannerSetting'
 import BlogManager from '@/components/admin/dashboard/BlogManager'
 import MusicManager from '@/components/admin/dashboard/MusicManager'
 import PhotoManager from '@/components/admin/dashboard/PhotoManager'
 import TravelManager from '@/components/admin/dashboard/TravelManager'
 import VlogManager from '@/components/admin/dashboard/VlogManager'
-import EditArticle from '@/components/admin/dashboard/EditArticle'
+import ArticleVieww from '@/components/view/Article'
 
 Vue.use(Router)
 
@@ -35,10 +35,18 @@ let router = new Router({
   },
   {
     path: '/blog',
-    bane: 'blog',
+    name: 'blog',
     component: Blog,
     meta: {
       title: 'Blogs'
+    }
+  },
+  {
+    path: '/article',
+    name: 'article',
+    component: ArticleVieww,
+    meta: {
+      title: 'View Article'
     }
   },
   {
@@ -94,17 +102,10 @@ let router = new Router({
             }
           },
           {
-            path: 'edit',
-            component: EditArticle,
+            path: 'subject',
+            component: Editor,
             meta: {
-              title: 'Admin Dashboard - Blog Edit Page'
-            }
-          },
-          {
-            path: 'new-thread',
-            component: NewArticle,
-            meta: {
-              title: 'New Blog'
+              title: 'Blog Editor'
             }
           },
           {

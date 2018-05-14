@@ -2,7 +2,7 @@
   <v-app id="app">
     <Header v-if="!this.hideHeader" />
     <v-content :class="{ 'pb-3': !this.hideHeader }">
-      <Banner v-if="!this.hideHeader" :display="!hideHeader" />
+      <Banner v-if="!(this.hideBanner || this.hideHeader)" :display="!hideHeader" />
       <v-container fluid :class="[isAdmin, 'pa-0', 'main' ]">
         <router-view></router-view>
       </v-container>
@@ -19,7 +19,8 @@ export default {
   components: { Banner, Header },
   data () {
     return {
-      hideHeader: false
+      hideHeader: false,
+      hideBanner: false
     }
   },
   computed: {
@@ -28,20 +29,18 @@ export default {
     }
   },
   watch: {
-    '$route' (to) {
+    '$route' () {
       if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
       else this.hideHeader = false;
-      this.$root.$emit('routerChanged', to.path);
+      if (this.$route.path.indexOf('article') >= 0) this.hideBanner = true;
+      else this.hideBanner = false;
     }
   },
   created () {
     if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
     else this.hideHeader = false;
-    this.$root.$emit('routerChanged', this.$route.path);
-  },
-  mounted () {
-    if (this.$route.path.indexOf('admin') >= 0) this.hideHeader = true;
-    else this.hideHeader = false;
+    if (this.$route.path.indexOf('article') >= 0) this.hideBanner = true;
+    else this.hideBanner = false;
   }
 };
 </script>

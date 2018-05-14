@@ -20,7 +20,8 @@ export class ArticleModule implements NestModule {
   configure(consumer: MiddlewaresConsumer): void {
     consumer
     .apply(CacheMiddleware).with(0).forRoutes(
-      { path: '/api/articles/category/list', method: RequestMethod.GET }
+      { path: '/api/articles/category/list', method: RequestMethod.GET },
+      { path: '/api/articles/byid', method: RequestMethod.GET }
     );
   }
 }

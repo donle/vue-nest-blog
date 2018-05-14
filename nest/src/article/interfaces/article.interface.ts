@@ -9,6 +9,7 @@ export interface IArticle {
     body: string;
     media: Array<string>;
     creationDate: Date;
+    modifiedDate?: Date;
     comments: Array<{
         messenger: string;
         body: string;

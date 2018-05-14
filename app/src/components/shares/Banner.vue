@@ -27,12 +27,6 @@ export default {
   },
   created() {
     this.introduction = "想说的话";
-  },
-  mounted() {
-    this.$root.$on('routerChanged', path => {
-      path = require("@/assets/media/banners/blog-banner.jpg");
-      this.bannerImage = path;
-    });
   }
 };
 </script>

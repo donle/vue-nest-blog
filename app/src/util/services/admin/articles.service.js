@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { requestDOM } from '@/util/default.config';
 
-export class DashboardService {
+export class ArticlesService {
   constructor() { }
 
   getArticleCategory(query) {
@@ -51,4 +51,20 @@ export class DashboardService {
       data: { articleId: id }
     }).then(res => res.data);
   }
+
+  getArticleById(id) {
+    return Vue.axios({
+      url: requestDOM + "api/articles/byid",
+      method: "GET",
+      params: { articleId: id }
+    }).then(res => res.data);
+  }
+
+  updateArticleById(article_subject) {
+    return Vue.axios({
+      url: requestDOM + "api/articles/update",
+      method: "POST",
+      data: article_subject
+    }).then(res => res.data);
+  } 
 }
