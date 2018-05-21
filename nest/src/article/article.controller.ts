@@ -38,16 +38,21 @@ export class ArticleController {
     @Post('update')
     public async updatePose(@Body() body: ArticleInterface) {
         if (body.media.length > 0) {
+            let newMedia = [];
             for (let img of body.media) {
-                if (img.includes('articles/')) continue;
+                if (img.includes('articles/')) {
+                    newMedia.push(img);
+                    continue;
+                }
 
                 let filename: any = img.split(/(\\|\/)/);
                 filename = filename[filename.length - 1] ;
                 const newPath = `articles/${body.articleId}/${filename}`;
                 fs.renameSync(`dist/${img}`, `dist/${newPath}`);
                 body.body = body.body.replace(img, newPath);
-                body.media.push(`dist/${newPath}`);
+                newMedia.push(`dist/${newPath}`);
             }
+            body.media = newMedia;
         }
         await this.articleService.updateOnePost(body);
     }

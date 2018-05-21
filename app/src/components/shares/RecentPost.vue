@@ -80,7 +80,7 @@ export default {
 
 <style lang="scss" scoped>
 .recentpost-card {
-  background: #f8f8f8;
+  background: #fff;
 }
 .card-title {
   border-bottom: 1px solid rgb(223, 223, 223);
