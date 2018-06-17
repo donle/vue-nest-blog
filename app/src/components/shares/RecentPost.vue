@@ -4,11 +4,11 @@
     <div class="links">
       <span class="article-link pa-3" v-for="(article, index) in list" :key="index">
         <!-- <router-link class="red--text text--accent-2" :to="{ path: '/article', query: {id: article.articleId }}">{{ article.title }}</router-link> -->
-        <a class="red--text text--accent-2" :href="'/article/id?=' + article.articleId">{{ article.title }}</a>
+        <a :href="`/article?type=${article.category}&articleId=${article.articleId}`" class="red--text text--accent-2">{{ article.title }}</a>
         
         <v-layout row wrap class="pt-1">
           <v-spacer></v-spacer>
-          <span class="subtitle">{{ article.category + ' - ' + article.subCategory + ' - ' + formatDate(article.creationDate)}} </span>
+          <span class="subtitle">{{ article.translatedCategory + ' - ' + article.subCategory + ' - ' + formatDate(article.creationDate)}} </span>
         </v-layout>
       </span>
     </div>
@@ -17,58 +17,27 @@
 
 <script>
 import moment from "moment";
+import { ArticlesService } from '@/util/services/admin/articles.service';
 
 export default {
   name: "RecentPost",
-  data() {
-    return {
-      list: [
-        {
-          title: "畢業了，然後呢? Part 3 自薦信和面試技巧一把抓 (完)",
-          creationDate: new Date("2018-03-01T14:05:20.293Z"),
-          category: "文章",
-          subCategory: "面试",
-          articleId: 10001
-        },
-        {
-          title: "畢業了，然後呢? Part 3 自薦信和面試技巧一把抓 (完)",
-          creationDate: new Date("2018-03-01T14:05:20.293Z"),
-          category: "文章",
-          subCategory: "面试",
-          articleId: 10001
-        },
-        {
-          title: "畢業了，然後呢? Part 3 自薦信和面試技巧一把抓 (完)",
-          creationDate: new Date("2018-03-01T14:05:20.293Z"),
-          category: "文章",
-          subCategory: "面试",
-          articleId: 10001
-        },
-        {
-          title: "畢業了，然後呢? Part 3 自薦信和面試技巧一把抓 (完)",
-          creationDate: new Date("2018-03-01T14:05:20.293Z"),
-          category: "文章",
-          subCategory: "面试",
-          articleId: 10001
-        },
-        {
-          title: "畢業了，然後呢? Part 3 自薦信和面試技巧一把抓 (完)",
-          creationDate: new Date("2018-03-01T14:05:20.293Z"),
-          category: "文章",
-          subCategory: "面试",
-          articleId: 10001
-        }
-      ]
-    };
-  },
+  data: () => ({
+    articleService: new ArticlesService(),
+    list: []
+  }),
   created() {
-    // this.$http
-    //   .get("/api/articles/recent")
-    //   .then(res => res.data)
-    //   .then(data => {
-    //     this.list = data;
-    //     console.log(data);
-    //   });
+    const categoryNameMap = {
+      'blog': '文章',
+      'travel': '游记',
+      'music': '音乐',
+      'photo': '摄影'
+    }
+
+    this.articleService.getArticleListByType().then(articles => {
+      this.list = articles.map(article => {
+        return { ...article, translatedCategory: categoryNameMap[article.category]};
+      });
+    });
   },
   methods: {
     formatDate: function(date) {

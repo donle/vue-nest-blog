@@ -11,7 +11,6 @@ export const ArticleSchema = new Schema({
     creationDate: Date,
     modifiedDate: Date,
     comments: [{
-        _id: false,
         messenger: String,
         body: String,
         date: Date

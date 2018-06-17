@@ -36,7 +36,7 @@ export class ArticlesService {
     }).then(res => res.data);
   }
 
-  getArticleList(type) {
+  getArticleListByType(type = '') {
     return Vue.axios({
       url: requestDOM + "api/articles/list",
       method: "GET",
@@ -67,4 +67,15 @@ export class ArticlesService {
       data: article_subject
     }).then(res => res.data);
   } 
+
+  uploadCommentByArticleId(article_id, comment) {
+    return Vue.axios({
+      url: requestDOM + "api/articles/comment",
+      method: "POST",
+      data: {
+        articleId: article_id,
+        comment
+      }
+    }).then(res => res.data);
+  }
 }

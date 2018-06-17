@@ -15,7 +15,7 @@
   </v-layout>
   <v-layout row class="mt-4 text-xs-left">
     <v-flex sm8 xs12>
-      <Comments :comments="article ? article.comments : []" />
+      <Comments :comments="article ? article.comments : []" :articleId="articleId ? articleId : null" />
       </v-flex>
   </v-layout>
 </div>

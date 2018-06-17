@@ -117,4 +117,23 @@ export class ArticleController {
     public async getArticleById(@Query() query: { articleId: string | number }) {
         return await this.articleService.getArticleById(query.articleId);
     }
+
+    @Post('comment')
+    public async uploadCommentByArticleId(@Body() body: {
+        articleId: string | number,
+        comment: {
+            username: string,
+            comment: string
+        }
+    }) {
+        const article = await this.articleService.getArticleById(body.articleId);
+        article.comments.push({
+            messenger: body.comment.username,
+            body: body.comment.comment,
+            date: new Date()
+        });
+
+        await this.articleService.updateOnePost(article);
+        return article;
+    }
 }

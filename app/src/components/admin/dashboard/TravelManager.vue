@@ -19,11 +19,11 @@ export default {
     httpService: new ArticlesService()
   }),
   created() {
-    this.getArticleList();
+    this.getArticleListByType();
   },
   methods: {
-    getArticleList () {
-      this.httpService.getArticleList('travel').then(res => {
+    getArticleListByType () {
+      this.httpService.getArticleListByType('travel').then(res => {
 
         for (let article of res) {
           let index = this.articles.findIndex(sub_articles => sub_articles.find(_article => _article.subCategory === article.subCategory));

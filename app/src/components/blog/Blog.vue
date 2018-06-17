@@ -12,38 +12,37 @@
 </template>
 
 <script>
-import ArticleList from '../shares/ArticleList';
-import RecentPost from '../shares/RecentPost';
+import ArticleList from "../shares/ArticleList";
+import RecentPost from "../shares/RecentPost";
+import { ArticlesService } from "@/util/services/admin/articles.service";
 
 export default {
-  name: 'Blog',
+  name: "Blog",
   components: { ArticleList, RecentPost },
-  data () {
-    return {
-      articles: [
-        [
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '留学', articleId: 12345678 },
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '留学', articleId: 12345678 },
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '留学', articleId: 12345678 },
-        ],
-        [
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '工作', articleId: 12345678 },
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '工作', articleId: 12345678 },
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '工作', articleId: 12345678 },
-        ],
-        [
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '旅游', articleId: 12345678 },
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '旅游', articleId: 12345678 },
-          { title: '雪梨留學打工記3 居然是團體面試？！', creationDate: new Date(), subCategory: '旅游', articleId: 12345678 }
-        ]
-      ]
-    }
+  data: () => ({
+    articles: [],
+    articleService: new ArticlesService()
+  }),
+  created() {
+    this.getArticleListByType();
   },
-  created () {
+  methods: {
+    getArticleListByType () {
+      this.articleService.getArticleListByType('blog').then(res => {
+
+        for (let article of res) {
+          let index = this.articles.findIndex(sub_articles => sub_articles.find(_article => _article.subCategory === article.subCategory));
+          if (index >= 0) {
+            this.articles[index].push(article);
+          } else {
+            this.articles.push([ article ]);
+          }
+        }
+      });
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
 </style>

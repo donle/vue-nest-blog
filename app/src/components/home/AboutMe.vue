@@ -38,19 +38,6 @@ export default {
     };
   },
   created() {
-    this.$http({
-      method: 'post',
-      url: '/api/user/login', 
-      data: {
-        username: '1',
-        password: '2'
-      },
-      headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MSwicGFzc3dvcmQiOjIsImlhdCI6MTUyMTYxMzY3OCwiZXhwIjoxNTIxNjE3Mjc4fQ.3-2dFWG_siWBO1oCSzKs3ZX6m6df2KDxI9HrDcTS_f4'
-      }
-    }).then(res => {
-      console.log(res.data);
-    })
     this.snapshotUrl = require("@/assets/articles/aboutme/dsc_00951.jpg");
   },
   methods: {
@@ -63,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .aboutme-card {
-  background: #f8f8f8;
+  background: #fff;
 }
 .card-title {
   border-bottom: 1px solid rgb(223, 223, 223);

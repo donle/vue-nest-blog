@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ArticleSchema, ArticleCategorySchema } from './article.sechma';
 import { ArticleInterface, IArticleCategoryInterface } from './interfaces/article.interface';
-import { Request } from 'express';
 
 enum ARTICLE_TYPE {
   BLOG = 'blog',
@@ -27,7 +26,7 @@ export class ArticleService {
     ], {
         limit: 6,
         sort: {
-          date: -1
+          creationDate: -1
         }
       }).exec();
   }
@@ -59,15 +58,17 @@ export class ArticleService {
   }
 
   public async getListOfArticleCategories (type: ARTICLE_TYPE) {
-    return await this.articleCategoryListModel.findOne({ type }).exec().then(res => res.category);
+    return await this.articleCategoryListModel.findOne({ type }).sort({
+      creationDate: -1
+    }).exec().then(res => res.category);
   }
 
   public async getListOfArticlesByType(type: ARTICLE_TYPE | string, category?: string) {
-    if (category) {
-      return await this.articleModel.find({ category: type, subCategory: category }).exec();
-    } else {
-      return await this.articleModel.find({ category: type }).exec();
-    }
+    let searchCondition: any = type ? { category: type } : {};
+    if (category) searchCondition.subCategory = category;
+    return await this.articleModel.find(searchCondition).sort({
+      creationDate: -1
+    }).exec();
   }
 
   public async getNumOfArticles (type: ARTICLE_TYPE, category: string) {

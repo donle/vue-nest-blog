@@ -1,6 +1,6 @@
 <template>
 <div class="text-xs-center">
-  <ArticleList :articles="articles" :editMode="true" />
+  <ArticleList :articles="articles" editMode />
   <v-btn fab bottom right dark fixed color="red accent-2" :to="{ path: 'subject', query: { type: 'blog', mode: 'create' }}">
     <v-icon dark class="add-btn-icon">add</v-icon>
   </v-btn>
@@ -19,11 +19,11 @@ export default {
     httpService: new ArticlesService()
   }),
   created() {
-    this.getArticleList();
+    this.getArticleListByType();
   },
   methods: {
-    getArticleList () {
-      this.httpService.getArticleList('blog').then(res => {
+    getArticleListByType () {
+      this.httpService.getArticleListByType('blog').then(res => {
 
         for (let article of res) {
           let index = this.articles.findIndex(sub_articles => sub_articles.find(_article => _article.subCategory === article.subCategory));

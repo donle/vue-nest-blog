@@ -7,10 +7,10 @@ export interface IArticle {
     private?: boolean;
     title: string;
     body: string;
-    media: Array<string>;
-    creationDate: Date;
+    media?: Array<string>;
+    creationDate?: Date;
     modifiedDate?: Date;
-    comments: Array<{
+    comments?: Array<{
         messenger: string;
         body: string;
         date: Date;
