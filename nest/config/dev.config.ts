@@ -1,4 +1,6 @@
-export const DevConfig = {
+import { ConfigInterface } from "./loader";
+
+export const DevConfig: ConfigInterface = {
     DB: {
         Url: 'mongodb://localhost:27018/dev',
     },

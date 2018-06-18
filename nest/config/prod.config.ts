@@ -1,4 +1,7 @@
-export const ProdConfig = {
+import * as fs from 'fs';
+import { ConfigInterface } from './loader';
+
+export const ProdConfig: ConfigInterface = {
     DB: {
         Url: 'mongodb://localhost:27018/prod',
     },
@@ -11,7 +14,8 @@ export const ProdConfig = {
     },
     Port: 443,
     SSL: {
-        Key: "",
-        Cert: ""
+        key: fs.readFileSync('./certificate/_.shaunxiao.com_private_key.key'),
+        cert: fs.readFileSync('./certificate/shaunxiao.com_ssl_certificate.cert'),
+        requestCert: true
     }
 }

@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { INestApplication, LoggerService } from '@nestjs/common';
 import { ApplicationModule } from './app.module';
 
+import * as fs from 'fs';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
@@ -20,11 +21,11 @@ class Application {
 	private app: INestApplication;
 	private staticFiles: express.RequestHandler;
 	private config: ConfigInterface;
+	private port: number = 3000;
 
 	constructor(
 		private env = ServerEnvironment.DEV,
 		private ssl = false,
-		private port = 3000,
 		private log = logger('dev'),
 		private cookieCommunicator = cookieParser(),
 		private h5history = connectHistoryApiFallback({
@@ -36,6 +37,7 @@ class Application {
 		})
 	) {
 		this.config = new CfgLoader(env, ssl).load();
+		this.port = this.port || this.config.Port;
 		this.staticFiles = express.static('public', {
 			maxAge: this.config.Cache.MaxAge
 		});
@@ -61,7 +63,8 @@ class Application {
 	private async bootstrap() {
 		this.app = await NestFactory.create(ApplicationModule, {
 			bodyParser: true,
-			cors: true
+			cors: true,
+			httpsOptions: this.config.SSL
 		});
 	}
 
@@ -91,8 +94,9 @@ class Application {
 	}
 
 	public async start(port?: number) {
-		await this.app.listen(port || this.config.Port);
+		await this.app.listen(port);
 	}
 }
 
 new Application();
+// new Application(ServerEnvironment.PROD, true);
