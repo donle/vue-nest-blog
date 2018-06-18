@@ -1,3 +1,5 @@
+declare const module: any;
+
 import { NestFactory } from '@nestjs/core';
 import { INestApplication, LoggerService } from '@nestjs/common';
 import { ApplicationModule } from './app.module';
@@ -8,12 +10,10 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import * as compression from 'compression';
 import * as connectMongo from 'connect-mongo';
-import * as path from 'path';
 import * as ejs from 'ejs';
 import * as express from 'express';
 import { connection as MongoConnect } from 'mongoose';
 import * as connectHistoryApiFallback from 'connect-history-api-fallback';
-import * as mPromise from 'bluebird';
 import { CfgLoader, ServerEnvironment, ConfigInterface } from '../config/loader';
 
 class Application {
@@ -36,7 +36,7 @@ class Application {
 		})
 	) {
 		this.config = new CfgLoader(env, ssl).load();
-		this.staticFiles = express.static('dist', {
+		this.staticFiles = express.static('public', {
 			maxAge: this.config.Cache.MaxAge
 		});
 		this.bootstrap().then(() => {
@@ -50,8 +50,11 @@ class Application {
 			this.setViewEngine('ejs');
 			this.setConnectSession();
 			this.passport();
-		}).then(() => {
-			this.start(this.port);
+		}).then(() => this.start(this.port)).then(() => {
+			if (module.hot) {
+				module.hot.accept();
+				module.hot.dispose(() => this.app.close());
+			}
 		});
 	}
 
@@ -63,7 +66,7 @@ class Application {
 	}
 
 	private setViewEngine(view: string) {
-		this.app.set('views', 'dist');
+		this.app.set('views', 'public');
 		this.app.set('view engine', view);
 		this.app.engine('html', ejs.renderFile);
 	}
