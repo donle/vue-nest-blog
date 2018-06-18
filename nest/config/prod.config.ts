@@ -15,7 +15,6 @@ export const ProdConfig: ConfigInterface = {
     Port: 443,
     SSL: {
         key: fs.readFileSync('./certificate/_.shaunxiao.com_private_key.key'),
-        cert: fs.readFileSync('./certificate/shaunxiao.com_ssl_certificate.cert'),
-        requestCert: true
+        cert: fs.readFileSync('./certificate/shaunxiao.com_ssl_certificate.cert')
     }
 }

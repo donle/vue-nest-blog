@@ -37,7 +37,7 @@ class Application {
 		})
 	) {
 		this.config = new CfgLoader(env, ssl).load();
-		this.port = this.port || this.config.Port;
+		this.port = this.config.Port || this.port;
 		this.staticFiles = express.static('public', {
 			maxAge: this.config.Cache.MaxAge
 		});
