@@ -6,7 +6,8 @@ export class AppService {
     constructor() {}
 
     public initServerFolders() {
-        if (!existsSync('public/upload')) mkdirSync('public/upload');
-        if (!existsSync('public/articles')) mkdirSync('public/articles');
+        if (!existsSync('public/resources')) mkdirSync('public/resources');
+        if (!existsSync('public/resources/upload')) mkdirSync('public/resources/upload');
+        if (!existsSync('public/resources/s')) mkdirSync('public/resources/s');
     }
 }

@@ -40,14 +40,14 @@ export class ArticleController {
         if (body.media.length > 0) {
             let newMedia = [];
             for (let img of body.media) {
-                if (img.includes('articles/')) {
+                if (img.includes('resources/s/')) {
                     newMedia.push(img);
                     continue;
                 }
 
                 let filename: any = img.split(/(\\|\/)/);
                 filename = filename[filename.length - 1] ;
-                const newPath = `articles/${body.articleId}/${filename}`;
+                const newPath = `resources/s/${body.articleId}/${filename}`;
                 fs.renameSync(`public/${img}`, `public/${newPath}`);
                 body.body = body.body.replace(img, newPath);
                 newMedia.push(`public/${newPath}`);
@@ -73,11 +73,11 @@ export class ArticleController {
         }
 
         if (body.imgs.length > 0) {
-            fs.mkdirSync('public/articles/' + newPost.articleId);
+            fs.mkdirSync('public/resources/s/' + newPost.articleId);
             for (let img of body.imgs) {
                 let filename: any = img.split(/(\\|\/)/);
                 filename = filename[filename.length - 1] ;
-                const newPath = `articles/${newPost.articleId}/${filename}`;
+                const newPath = `resources/s/${newPost.articleId}/${filename}`;
                 fs.renameSync(`public/${img}`, `public/${newPath}`);
                 body.html = body.html.replace(img, newPath);
                 newPost.media.push(`public/${newPath}`);
@@ -92,7 +92,7 @@ export class ArticleController {
     @Post('remove')
     public async removeOnePost(@Body() body) {
         await this.articleService.removeOnePost(parseInt(body.articleId));
-        fs.unlinkSync(`public/articles/${body.articleId}`);
+        fs.unlinkSync(`public/resources/s/${body.articleId}`);
     }
 
     @Get('shortlist')
