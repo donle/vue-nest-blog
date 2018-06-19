@@ -1,6 +1,6 @@
 import { Get, Controller, Res } from '@nestjs/common';
 import { Response } from 'express';
-import * as fs from 'fs';
+import * as path from 'path';
 
 @Controller()
 export class AppController {
@@ -9,6 +9,6 @@ export class AppController {
 
   @Get('/robots.txt')
   robotFile(@Res() res: Response) {
-    res.send(fs.readFileSync('./robots.txt', 'utf-8'));
+    res.sendFile(path.resolve(process.cwd(), 'robots.txt'));
   }
 }
