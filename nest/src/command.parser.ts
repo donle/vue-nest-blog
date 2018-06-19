@@ -1,7 +1,10 @@
 
 
 export class CommandArgvParser {
-    private commands: string[];
+    private commands: {
+        key: string,
+        requireValue: boolean
+    }[];
     private simplifideCommands: {
         v: string,
         h: string,
@@ -17,12 +20,12 @@ export class CommandArgvParser {
 
     constructor() {
         this.commands = [
-            'port',
-            'https',
-            'dev',
-            'prod',
-            'help',
-            'version'
+            { key: 'port', requireValue: true },
+            { key: 'https', requireValue: false },
+            { key: 'dev', requireValue: false },
+            { key: 'prod', requireValue: false },
+            { key: 'help', requireValue: false },
+            { key: 'version', requireValue: false }
         ];
         this.simplifideCommands = {
             'h': 'help',
@@ -92,9 +95,10 @@ export class CommandArgvParser {
         if (error) return error;
 
         for (let argValue of this.commandArgValueMap) {
-            let arg = this.commands.find(argType => argValue.name === `--${argType}`);
+            let arg = this.commands.find(argType => argValue.name === `--${argType.key}`);
             if (!arg) arg = this.simplifideCommands[argValue.name.replace(/^-/, '')];
             if (!arg) return 'Unknown command: ' + argValue.name;
+            if (arg.requireValue && typeof argValue.value === 'undefined') return 'Missing value of: ' + argValue.name; 
         }
         return;
     }
