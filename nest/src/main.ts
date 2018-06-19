@@ -1,7 +1,7 @@
 declare const module: any;
 
 import { NestFactory } from '@nestjs/core';
-import { INestApplication, LoggerService } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { ApplicationModule } from './app.module';
 
 import * as logger from 'morgan';
@@ -15,7 +15,9 @@ import * as express from 'express';
 import { connection as MongoConnect } from 'mongoose';
 import * as connectHistoryApiFallback from 'connect-history-api-fallback';
 import { CfgLoader, ServerEnvironment, ConfigInterface } from '../config/loader';
-export class Application {
+import { CommandArgvParser } from './command.parser';
+
+class Application {
 	private app: INestApplication;
 	private staticFiles: express.RequestHandler;
 	private config: ConfigInterface;
@@ -96,5 +98,7 @@ export class Application {
 	}
 }
 
-// new Application();
-// new Application(ServerEnvironment.PROD, true);
+
+const commandArgs = new CommandArgvParser();
+let isDevMode = commandArgs.get('dev') || !commandArgs.get('prod');
+new Application(isDevMode ? ServerEnvironment.DEV : ServerEnvironment.PROD, <boolean>commandArgs.get('https'), parseInt(<string>commandArgs.get('port')));

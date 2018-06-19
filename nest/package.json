@@ -7,12 +7,12 @@
     "version": "node index.js -v",
     "help": "node index.js -h",
     "start": "node index.js",
-    "start:https": "node --https index.js",
+    "start:https": "node index.js --https",
     "start:watch": "nodemon",
     "prestart:prod": "tsc",
     "start:prod": "node dist/main.js",
     "start:webpack": "node dist/server",
-    "start:https:webpack": "node --prod --https dist/server",
+    "start:https:webpack": "node dist/server --prod --https",
     "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {
