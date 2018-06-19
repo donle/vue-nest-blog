@@ -14,7 +14,7 @@ export class MediaService {
 
     public async removeMediaFile(filepath: string): Promise<NodeJS.ErrnoException> {
         return new Promise<NodeJS.ErrnoException>(resolve => {
-            fs.unlink('.\\dist\\' + filepath, err => resolve(err));
+            fs.unlink('.\\public\\' + filepath, err => resolve(err));
         });
     }
 }

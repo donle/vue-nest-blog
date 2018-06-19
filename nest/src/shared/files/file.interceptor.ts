@@ -3,7 +3,7 @@ import { Validator } from 'class-validator';
 import { FileInterceptor } from '@nestjs/common';
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => callback(null, './dist/upload'),
+    destination: (req, file, callback) => callback(null, './public/upload'),
     filename: (req, file, callback) => callback(null, file.originalname)
 });
 

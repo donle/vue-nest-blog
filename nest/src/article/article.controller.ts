@@ -48,9 +48,9 @@ export class ArticleController {
                 let filename: any = img.split(/(\\|\/)/);
                 filename = filename[filename.length - 1] ;
                 const newPath = `articles/${body.articleId}/${filename}`;
-                fs.renameSync(`dist/${img}`, `dist/${newPath}`);
+                fs.renameSync(`public/${img}`, `public/${newPath}`);
                 body.body = body.body.replace(img, newPath);
-                newMedia.push(`dist/${newPath}`);
+                newMedia.push(`public/${newPath}`);
             }
             body.media = newMedia;
         }
@@ -73,14 +73,14 @@ export class ArticleController {
         }
 
         if (body.imgs.length > 0) {
-            fs.mkdirSync('dist/articles/' + newPost.articleId);
+            fs.mkdirSync('public/articles/' + newPost.articleId);
             for (let img of body.imgs) {
                 let filename: any = img.split(/(\\|\/)/);
                 filename = filename[filename.length - 1] ;
                 const newPath = `articles/${newPost.articleId}/${filename}`;
-                fs.renameSync(`dist/${img}`, `dist/${newPath}`);
+                fs.renameSync(`public/${img}`, `public/${newPath}`);
                 body.html = body.html.replace(img, newPath);
-                newPost.media.push(`dist/${newPath}`);
+                newPost.media.push(`public/${newPath}`);
             }
         }
         newPost.body = body.html;
@@ -92,7 +92,7 @@ export class ArticleController {
     @Post('remove')
     public async removeOnePost(@Body() body) {
         await this.articleService.removeOnePost(parseInt(body.articleId));
-        fs.unlinkSync(`dist/articles/${body.articleId}`);
+        fs.unlinkSync(`public/articles/${body.articleId}`);
     }
 
     @Get('shortlist')

@@ -13,7 +13,7 @@ export class MediaController {
     @Post('article/upload')
     @UseInterceptors(ImageInterceptor)
     public async uploadArticleMedia (@UploadedFile() file: Express.Multer.File) {
-        return { url: file.path.replace('dist\\', '') };
+        return { url: file.path.replace('public\\', '') };
     }
     
     @Post('article/remove')
