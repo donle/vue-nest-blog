@@ -63,7 +63,7 @@ export default {
           snapshotUrl:
             article.media.length === 0
               ? ""
-              : article.media[0].replace(/dist\//, "")
+              : article.media[0].replace(/public\//, "")
         }));
       })
       .catch(error => {
@@ -102,6 +102,8 @@ export default {
   .card-body-media {
     flex: 0 0 25%;
     height: 100%;
+    max-height: 128px;
+    overflow: hidden;
     img {
       max-width: 100%;
       max-height: 100%;
