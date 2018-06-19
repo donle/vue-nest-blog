@@ -49,8 +49,8 @@ export class CfgLoader {
             ProdConfig.Port = 80;
         } else {
             ProdConfig.Port = 443;
-            ProdConfig.SSL.key = readFileSync(ProdConfig.SSL.key);
-            ProdConfig.SSL.cert = readFileSync(ProdConfig.SSL.cert);
+            ProdConfig.SSL.key = ProdConfig.SSL.key instanceof Buffer ? ProdConfig.SSL.key : readFileSync(ProdConfig.SSL.key);
+            ProdConfig.SSL.cert = ProdConfig.SSL.cert instanceof Buffer ? ProdConfig.SSL.cert : readFileSync(ProdConfig.SSL.cert);
         }
         return this.env === ServerEnvironment.PROD ? ProdConfig : DevConfig;
     }
