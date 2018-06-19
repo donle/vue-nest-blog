@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './shared/authentication/auth.module';
-import { UserSchema } from './user/user.sechma';
 
 import { CfgLoader, ServerEnvironment } from '../config/loader'
 import { MediaModule } from './media/media.module';
