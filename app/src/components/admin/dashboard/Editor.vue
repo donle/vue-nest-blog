@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { VueEditor, Quill } from "vue2-editor";
+import { VueEditor } from "vue2-editor";
 
 import { requestDOM } from '@/util/default.config';
 import { ArticlesService } from "../../../util/services/admin/articles.service";
@@ -209,7 +209,7 @@ export default {
           this.create_new_dialog = false;
         })
         .catch(e => {
-          
+          //@@todo
         });
     },
     saveArticle(category) {
@@ -221,6 +221,7 @@ export default {
           subCategory: category.name, 
           media: this.content_images 
         }).then (res => {
+          //@@todo: update article category list
           this.save_dialog = false;
           this.title = '';
           this.content_images = [];
@@ -229,7 +230,7 @@ export default {
         })
       } else {
         this.httpService.saveNewArticle(this.title, this.content, this.content_images, this.$route.query.type, category)
-        .then(res => {
+        .then(() => {
           this.save_dialog = false;
           this.title = '';
           this.content_images = [];

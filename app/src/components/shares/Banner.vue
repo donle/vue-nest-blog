@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       introduction: "",
+      //@@todo: to be moved
       bannerImage: require("@/assets/media/banners/home-banner.jpg")
     };
   },

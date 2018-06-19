@@ -15,7 +15,7 @@ import MusicManager from '@/components/admin/dashboard/MusicManager'
 import PhotoManager from '@/components/admin/dashboard/PhotoManager'
 import TravelManager from '@/components/admin/dashboard/TravelManager'
 import VlogManager from '@/components/admin/dashboard/VlogManager'
-import ArticleVieww from '@/components/view/Article'
+import ArticleView from '@/components/view/Article'
 
 Vue.use(Router)
 
@@ -44,7 +44,7 @@ let router = new Router({
   {
     path: '/article',
     name: 'article',
-    component: ArticleVieww,
+    component: ArticleView,
     meta: {
       title: 'View Article'
     }

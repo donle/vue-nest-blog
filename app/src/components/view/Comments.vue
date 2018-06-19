@@ -54,9 +54,6 @@ export default {
       });
     }
   },
-  watch: {
-    comments: function(from, to) {}
-  },
   computed: {
   },
   mounted() {

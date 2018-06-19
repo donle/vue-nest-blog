@@ -38,9 +38,10 @@ export default {
       return moment(date).format("MMM DD, YYYY");
     },
     deleteArticle (articleId, index) {
-      this.httpService.deleteArticleById(articleId).then(res => {
-        //@@todo
+      this.httpService.deleteArticleById(articleId).then(() => {
         this.articles.splice(index, 1);
+      }).catch(error => {
+        //@@todo
       });
     }
   }

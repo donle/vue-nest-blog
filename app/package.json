@@ -1,5 +1,5 @@
 {
-  "name": "myBlog",
+  "name": "my-blog",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -34,6 +34,9 @@
   },
   "eslintConfig": {
     "root": true,
+    "env": {
+      "node": true
+    },
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
@@ -53,8 +56,7 @@
     "productName": "ElectronVue",
     "appId": "org.simulatedgreg.electron-vue",
     "dmg": {
-      "contents": [
-        {
+      "contents": [{
           "x": 410,
           "y": 150,
           "type": "link",

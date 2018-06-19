@@ -55,7 +55,7 @@ export default {
       .then(articles => {
         this.articles = articles.map(article => ({
           articleId: article.articleId,
-          body: article.body.replace(/\<.+?\>/g, ""),
+          body: article.body.replace(/<.+?>/g, ""),
           category: article.category,
           subCategory: article.subCategory,
           title: article.title,
