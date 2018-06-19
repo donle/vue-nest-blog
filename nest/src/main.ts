@@ -4,7 +4,6 @@ import { NestFactory } from '@nestjs/core';
 import { INestApplication, LoggerService } from '@nestjs/common';
 import { ApplicationModule } from './app.module';
 
-import * as fs from 'fs';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
@@ -16,16 +15,15 @@ import * as express from 'express';
 import { connection as MongoConnect } from 'mongoose';
 import * as connectHistoryApiFallback from 'connect-history-api-fallback';
 import { CfgLoader, ServerEnvironment, ConfigInterface } from '../config/loader';
-
-class Application {
+export class Application {
 	private app: INestApplication;
 	private staticFiles: express.RequestHandler;
 	private config: ConfigInterface;
-	private port: number = 3000;
 
 	constructor(
 		private env = ServerEnvironment.DEV,
 		private ssl = false,
+		private port?: number,
 		private log = logger('dev'),
 		private cookieCommunicator = cookieParser(),
 		private h5history = connectHistoryApiFallback({
@@ -36,8 +34,8 @@ class Application {
 			level: 9
 		})
 	) {
-		this.config = new CfgLoader(env, ssl).load();
-		this.port = this.config.Port || this.port;
+		this.config = new CfgLoader(this.env, this.ssl).load();
+		this.port = this.port || this.config.Port || 3000;
 		this.staticFiles = express.static('public', {
 			maxAge: this.config.Cache.MaxAge
 		});
@@ -98,5 +96,5 @@ class Application {
 	}
 }
 
-new Application();
+// new Application();
 // new Application(ServerEnvironment.PROD, true);

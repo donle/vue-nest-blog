@@ -23,12 +23,9 @@ export class ArticleService {
       'category',
       'subCategory',
       'articleId'
-    ], {
-        limit: 6,
-        sort: {
-          creationDate: -1
-        }
-      }).exec();
+    ]).sort({
+      creationDate: -1
+    }).limit(6).exec(); 
   }
 
   public async getBulkPosts(limit: number, skip: number = 0) {

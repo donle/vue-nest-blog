@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import { ConfigInterface } from './loader';
 
 export const ProdConfig: ConfigInterface = {
@@ -14,7 +13,7 @@ export const ProdConfig: ConfigInterface = {
     },
     Port: 443,
     SSL: {
-        key: fs.readFileSync('./certificate/_.shaunxiao.com_private_key.key'),
-        cert: fs.readFileSync('./certificate/shaunxiao.com_ssl_certificate.cert')
+        key: './certificate/_.shaunxiao.com_private_key.key',
+        cert: './certificate/shaunxiao.com_ssl_certificate.cert'
     }
 }

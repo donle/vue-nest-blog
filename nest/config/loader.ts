@@ -1,9 +1,10 @@
+import { readFileSync } from 'fs';
 import { DevConfig } from './dev.config';
 import { ProdConfig } from './prod.config';
 
 export enum ServerEnvironment {
-    PROD,
-    DEV
+    PROD = 'prod',
+    DEV = 'dev'
 }
 
 export interface HttpsOptions {
@@ -48,6 +49,8 @@ export class CfgLoader {
             ProdConfig.Port = 80;
         } else {
             ProdConfig.Port = 443;
+            ProdConfig.SSL.key = readFileSync(ProdConfig.SSL.key);
+            ProdConfig.SSL.cert = readFileSync(ProdConfig.SSL.cert);
         }
         return this.env === ServerEnvironment.PROD ? ProdConfig : DevConfig;
     }

@@ -6,9 +6,9 @@ module.exports = {
         plugins: [
             new PrerenderSpaPlugin(
                 // Absolute path to compiled SPA
-                path.join(__dirname, '../dist'),
+                path.join(__dirname, './dist'),
                 // List of routes to prerender
-                ['/', '/home']
+                ['/', '/home', '/admin/login']
             )
         ]
     }
