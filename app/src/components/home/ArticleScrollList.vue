@@ -1,12 +1,12 @@
 <template>
   <div class="article-list">
-    <div class="article-card pt-2 pb-3 mt-3 mb-3 elevation-1" v-for="(article, index) in articles" :key="index">
-      <h3 class="card-title ma-0 pl-3 pr-3 pb-2">
+    <div class="article-card my-3 elevation-1" v-for="(article, index) in articles" :key="index">
+      <h3 class="card-title ma-0 px-3 py-2">
         <span>{{article.title + ' - ' + article.subCategory}}</span>
         <v-spacer></v-spacer>
         <span class="sub-card-title"> {{ formatDate(article.date) }} </span>
       </h3>
-      <div class="card-body pl-3 pr-3 pt-3">
+      <div class="card-body pa-3">
         <span v-if="article.snapshotUrl" class="card-body-media">
           <img :src="article.snapshotUrl" />
         </span>

@@ -1,6 +1,6 @@
 <template>
-  <div class="recentpost-card elevation-1 pt-2 mt-3">
-    <h3 class="card-title ma-0 pt-1 pb-2 pl-3 pr-3">最新文章</h3>
+  <div class="recentpost-card elevation-1 mt-3">
+    <h3 class="card-title ma-0 px-3">最新文章</h3>
     <div class="links">
       <span class="article-link pa-3" v-for="(article, index) in list" :key="index">
         <!-- <router-link class="red--text text--accent-2" :to="{ path: '/article', query: {id: article.articleId }}">{{ article.title }}</router-link> -->

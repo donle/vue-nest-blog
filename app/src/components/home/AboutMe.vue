@@ -1,6 +1,6 @@
 <template>
-  <div class="aboutme-card elevation-1 pt-2 mt-3">
-    <h3 class="card-title ma-0 pt-1 pb-2 pl-3 pr-3">关于我</h3>
+  <div class="aboutme-card elevation-1 mt-3">
+    <h3 class="card-title ma-0 px-3">关于我</h3>
     <v-layout class="card-body pa-3" row wrap>
       <v-flex xs12 class="snapshot pb-3">
         <img :src="snapshotUrl" />
