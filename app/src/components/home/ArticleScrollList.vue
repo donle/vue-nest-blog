@@ -63,7 +63,7 @@ export default {
           snapshotUrl:
             article.media.length === 0
               ? ""
-              : article.media[0].replace(/public\//, "")
+              : article.media[0].replace(/(\/|\\)?public/, "")
         }));
       })
       .catch(error => {
