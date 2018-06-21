@@ -16,7 +16,7 @@
           </v-flex>
           <v-layout row wrap>
             <v-spacer></v-spacer>
-            <v-btn flat class="red--text text--accent-2 read-more" :to="{path: 'article', query: {
+            <v-btn flat class="red--text text--accent-2 read-more" :to="{path: '/article', query: {
               type: article.category,
               articleId: article.articleId
             }}">阅读全文</v-btn>
